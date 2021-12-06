@@ -15,7 +15,13 @@ namespace L_DINER.Models
         public IQueryable<Order> Orders => context.Orders;
 
         public void submitOrder(Order order) {
-            context.Add<Order>(order);
+            context.AttachRange(order.Burgers.Select(b=>b.Burger));
+            context.AttachRange(order.Sides.Select(b => b.Side));
+            context.AttachRange(order.Drinks.Select(b => b.Drink));
+            if (order.ID == 0) {
+                context.Add<Order>(order);
+            }
+            
             context.SaveChanges();
         }
     }

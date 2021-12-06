@@ -3,4 +3,62 @@
 *@
 @{
 }
-Review order
+@model Order
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <thead>
+        <tr><th>Burgers</th></tr>
+    </thead>
+    <tbody>
+        @foreach (OrderObjectForBurger burger in Model.Burgers)
+        {
+            <tr>
+                <td>@burger.Burger.Name</td>
+                <td>$@burger.Burger.Price</td>
+            </tr>
+        }
+    </tbody>
+    <thead>
+        <tr>
+            <th>Sides</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (OrderObjectForSide side in Model.Sides)
+        {
+            <tr>
+                <td>@side.Side.Name</td>
+                <td>$@side.Side.Price</td>
+            </tr>
+        }
+    </tbody>
+    <thead>
+        <tr><th>Drinks</th></tr>
+    </thead>
+    <tbody>
+        @foreach (OrderObjectForDrink drink in Model.Drinks)
+        {
+            <tr>
+                <td>@drink.Drink.Name</td>
+                <td>$@drink.Drink.Price</td>
+            </tr>
+        }
+    </tbody>
+    <thead>
+        <tr><th>Total Price is $@Model.TotalCost().ToString("F")</th></tr>
+    </thead>
+
+    <thead>
+        <tr>
+            <th><a asp-action="MakeOrder">Make Order</a></th>
+        </tr>
+        <tr>
+            <th><a asp-action="ClearOrder">Clear Order</a></th>
+        </tr>
+    </thead>
+</table>

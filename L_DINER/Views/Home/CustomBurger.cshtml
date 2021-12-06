@@ -3,4 +3,32 @@
 *@
 @{
 }
-Hello world
+@model List<IngredientLine>
+    <form asp-action="AddCustomBurgerToOrder" method="post">
+        <table class="table table-bordered">
+            <thead>
+                <tr><th>Create you own burger</th></tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var (item, index) in Model.Select((value, i) => (value, i)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.Ingredient.Name</td>
+                        @{String name = "ingredient" + index; }}
+                        <td><input class="form-control" type="number" name="ingredient[@index]" placeholder="@item.Quantity"></td>
+                    </tr>
+                }
+            </tbody>
+            <thead>
+                <tr><th><input type="submit" value="Add to Order"></th></tr>
+            </thead>
+        </table>
+        </form>
