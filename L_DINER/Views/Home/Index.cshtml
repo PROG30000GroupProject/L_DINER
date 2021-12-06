@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model MenuObject
+<div class="text-center">
+    <h1 class="display-4">Menu</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr><th>Burgers</th></tr>
+        </thead>
+        <tbody>
+            @foreach (Burger burger in Model.Burgers)
+            {
+            <tr>
+                <td>@burger.Name</td>
+                <td>$@burger.Price</td>
+                <td><a asp-action="AddBurger" asp-route-id="@burger.ID">Add</a></td>
+            </tr>
+            }
+        <tr>
+            <td>Make Your Own Burger
+            </td>
+        </tr>
+        </tbody>
+        <thead>
+            <tr>
+            <th>Sides</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Side side in Model.Sides)
+            {
+            <tr>
+                <td>@side.Name</td>
+                <td>$@side.Price</td>
+                <td><a asp-action="AddSide" asp-route-id="@side.ID">Add</a></td>
+            </tr>
+            }
+        </tbody>
+        <thead>
+            <tr><th>Drinks</th></tr>
+        </thead>
+        <tbody>
+            @foreach (Drink drink in Model.Drinks)
+            {
+                <tr>
+                    <td>@drink.Name</td>
+                    <td>$@drink.Price</td>
+                    <td><a asp-action="AddDrink" asp-route-id="@drink.ID">Add</a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
