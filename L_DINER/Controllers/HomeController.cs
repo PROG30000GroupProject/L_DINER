@@ -18,6 +18,7 @@ namespace L_DINER.Controllers
         private ISideRepository sideRepo;
         private IDrinkRepository drinkRepo;
         private IOrderRepository orderRepo;
+        int defaultBurgerNumber = 3;
         public HomeController(IBurgerRepository bRepo, ISideRepository sRepo, IDrinkRepository dRepo, IOrderRepository oRepo)
         {
             burgerRepo = bRepo;
@@ -28,7 +29,7 @@ namespace L_DINER.Controllers
         public IActionResult Index()
         {
             MenuObject menu = new MenuObject{
-                Burgers = burgerRepo.Burgers.ToList(),
+                Burgers = burgerRepo.Burgers.Where(b=>b.ID<=defaultBurgerNumber).ToList(),
                 Sides = sideRepo.Sides.ToList(),
                 Drinks = drinkRepo.Drinks.ToList()
             };
@@ -113,6 +114,17 @@ namespace L_DINER.Controllers
                 System.Diagnostics.Debug.WriteLine("Added:" + tempOrder.Burgers.Count());
             }
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult CustomBurger() {
+
+            return View();
+        }
+
+        public IActionResult ReviewOrder()
+        {
+
+            return View();
         }
 
     }
