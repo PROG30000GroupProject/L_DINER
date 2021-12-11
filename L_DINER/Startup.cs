@@ -34,6 +34,7 @@ namespace L_DINER
             services.AddScoped<ISideRepository, EFSiderRepo>();
             services.AddScoped<IDrinkRepository, EFDrinkRepo>();
             services.AddScoped<IOrderRepository, EFOrderRepo>();
+            services.AddScoped<IUserRepository, EFUserRepo>();
             services.AddSession();
         }
 

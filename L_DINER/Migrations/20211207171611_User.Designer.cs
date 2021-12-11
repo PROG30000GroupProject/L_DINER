@@ -4,14 +4,16 @@ using L_DINER.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace L_DINER.Migrations
 {
     [DbContext(typeof(LDINER_DBContext))]
-    partial class LDINER_DBContextModelSnapshot : ModelSnapshot
+    [Migration("20211207171611_User")]
+    partial class User
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Sign Up Page";
+}
+
+
+@model L_DINER.Models.User
+
+<h4>
+    User Sign Up Page
+</h4>
+<h4>
+    @ViewBag.Msg
+</h4>
+<div class="alert-warning">
+    <div asp-validation-summary="All"></div>
+</div>
+<form class="row m-lg-3" asp-action="SignUp" method="post">
+    <div class="col-12">
+        <label asp-for="FName">First Name: </label>
+        <input class="form-control" asp-for="FName" />
+    </div>
+    <div class="col-12">
+        <label asp-for="LName">Last Name: </label>
+        <input class="form-control" asp-for="LName" />
+    </div>
+    <div class="col-12">
+        <label asp-for="Email">Email: </label>
+        <input class="form-control" asp-for="Email" />
+    </div>
+    <div class="col-12">
+        <label asp-for="Phone">Phone: </label>
+        <input class="form-control" asp-for="Phone" />
+    </div>
+    <div class="col-12">
+        <label asp-for="Pass">Password: </label>
+        <input type="password" class="form-control" asp-for="Pass" />
+    </div>
+    <div class="col-12">
+        <label asp-for="ConfirmPass">Confirm Password: </label>
+        <input type="password" class="form-control" asp-for="ConfirmPass" />
+    </div>
+    <div class="col-12">
+        <button class="btn btn-dark float-end" type="submit">Submit</button>
+    </div>
+</form>
+<div class="col-12">
+    <p class="text-center mb-0">Sign Up<a asp-action="SignIn"> here</a> to Sign In</p>
+</div>

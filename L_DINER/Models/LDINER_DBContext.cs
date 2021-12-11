@@ -15,5 +15,6 @@ namespace L_DINER.Models
         public DbSet<Burger> Burgers { get; set; }
         public DbSet<Side> Sides { get; set; }
         public DbSet<Drink> Drinks { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

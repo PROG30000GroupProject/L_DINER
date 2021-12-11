@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Sign In Page";
+}
+
+@model L_DINER.Models.User
+
+<h1>Sign In Page</h1>
+
+<div class="alert alert-warning" role="alert">
+    @ViewBag.Error
+</div>
+<form asp-action="SignIn" method="post">
+    <div class="col-12">
+        <label for="email">Email</label><br>
+        <input type="text" id="email" name="Email" required>
+    </div>
+    <div class="col-12">
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="Password" required>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-dark float-end" type="submit">Login</button>
+    </div>
+    <div class="col-12">
+        <p class="text-center mb-0">Sign Up<a asp-action="SignUp"> here</a> to Sign Up</p>
+    </div>
+</form>

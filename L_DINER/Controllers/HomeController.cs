@@ -18,6 +18,10 @@ namespace L_DINER.Controllers
         private ISideRepository sideRepo;
         private IDrinkRepository drinkRepo;
         private IOrderRepository orderRepo;
+        private IUserRepository userRepo;
+
+        public static int UserID = 0;
+
         int defaultBurgerNumber = 3;
         List<IngredientLine> defaultIngredients = new List<IngredientLine> {
                 new IngredientLine {
@@ -51,12 +55,13 @@ namespace L_DINER.Controllers
                        Quantity = 1
                    }
             };
-        public HomeController(IBurgerRepository bRepo, ISideRepository sRepo, IDrinkRepository dRepo, IOrderRepository oRepo)
+        public HomeController(IBurgerRepository bRepo, ISideRepository sRepo, IDrinkRepository dRepo, IOrderRepository oRepo, IUserRepository uRepo)
         {
             burgerRepo = bRepo;
             sideRepo = sRepo;
             drinkRepo = dRepo;
             orderRepo = oRepo;
+            userRepo = uRepo;
         }
         public IActionResult Index()
         {
@@ -222,6 +227,76 @@ namespace L_DINER.Controllers
         {
             HttpContext.Session.Remove("order");
             return RedirectToAction("Index");
+        }
+
+        public IActionResult SignIn()
+        {
+            return View(new User());
+        }
+
+        [HttpPost]
+        public IActionResult SignIn(string email, string password)
+        {
+            if (IsUserValid(email, password))
+            {
+                ViewBag.Error = "Valid Login";
+                foreach (User u in userRepo.Users) 
+                { 
+                    if (u.Email.Equals(email))
+                    {
+                        UserID = u.ID;
+                    }
+                }
+                return View(new User());
+            }
+            ViewBag.Error = "Invalid username or password";
+            return View(new User());
+        }
+
+        public bool IsUserValid(string email, string pass)
+        {
+            foreach (User u in userRepo.Users)
+            {
+                if (email.Equals(u.Email) && pass.Equals(u.Pass))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public IActionResult SignUp()
+        {
+            return View(new User());
+        }
+
+        [HttpPost]
+        public IActionResult SignUp(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                bool emailUsed = false; 
+                foreach (User u in userRepo.Users)
+                {
+                    if (u.Email.Equals(user.Email))
+                    {
+                        emailUsed = true;
+                    }
+                }
+                if (emailUsed)
+                {
+                    ModelState.AddModelError(string.Empty, "Email already exists. Please use a different new email");
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Msg = "Thank you for signing up";
+                    userRepo.SaveUser(user);
+                    ModelState.Clear();
+                    return View();
+                }
+            }
+            return View();
         }
     }
 }
