@@ -255,7 +255,8 @@ namespace L_DINER.Controllers
             order.Price = order.TotalCost();
             order.UserID = (int)Int64.Parse(HttpContext.Session.GetString("isLoggedInUser"));
             orderRepo.submitOrder(order);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("ClearOrder");
         }
         public IActionResult ClearOrder()
         {
