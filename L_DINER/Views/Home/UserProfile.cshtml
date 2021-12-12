@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model dynamic
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone #</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.User.ID</td>
+            <td>@Model.User.FName</td>
+            <td>@Model.User.LName</td>
+            <td>@Model.User.Phone</td>
+            <td>@Model.User.Email</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Total Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Order o in Model.Orders)
+            {
+        <tr>
+            <td>@o.ID</td>
+            <td>$ @o.Price</td>
+        </tr>
+            }
+    </tbody>
+</table>
+
+<a asp-action="Logout">Sign Out</a>

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -247,6 +248,7 @@ namespace L_DINER.Controllers
         public IActionResult MakeOrder() {
 
             Order order = JsonConvert.DeserializeObject<Order>(HttpContext.Session.GetString("order"));
+            order.Price = order.TotalCost();
             order.UserID = (int)Int64.Parse(HttpContext.Session.GetString("isLoggedInUser"));
             orderRepo.submitOrder(order);
             return RedirectToAction("Index");
@@ -295,11 +297,11 @@ namespace L_DINER.Controllers
             return false;
         }
 
-        public IActionResult SignOut()
+        public IActionResult Logout()
         {
             HttpContext.Session.SetString("isLoggedIn", "false");
             HttpContext.Session.SetString("isLoggedInUser", "0");
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         public IActionResult SignUp()
@@ -334,6 +336,40 @@ namespace L_DINER.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult UserProfile()
+        {
+            if (HttpContext.Session.GetString("isLoggedIn") == null)
+            {
+                HttpContext.Session.SetString("isLoggedIn", "false");
+            }
+
+            if (HttpContext.Session.GetString("isLoggedIn").Equals("true"))
+            {
+                int uid = (int)Int64.Parse(HttpContext.Session.GetString("isLoggedInUser"));
+
+                User user = new User();
+                foreach (User u in userRepo.Users)
+                {
+                    if (uid == u.ID)
+                    {
+                        user = u;
+                    }
+                }
+
+                dynamic model = new ExpandoObject();
+                model.User = user;
+                model.Orders = orderRepo.Orders.Where(o => o.UserID == uid).ToList();
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("SignIn");
+            }
+            
         }
     }
 }

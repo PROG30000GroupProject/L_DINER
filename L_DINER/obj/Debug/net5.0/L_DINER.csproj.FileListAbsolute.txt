@@ -212,3 +212,4 @@ C:\Users\Dave\Desktop\Sheridan\CompSci-Sem 5\PROG30000 - ESS\L_DINER\L_DINER\L_D
 C:\Users\Dave\Desktop\Sheridan\CompSci-Sem 5\PROG30000 - ESS\L_DINER\L_DINER\L_DINER\obj\Debug\net5.0\L_DINER.pdb
 C:\Users\Dave\Desktop\Sheridan\CompSci-Sem 5\PROG30000 - ESS\L_DINER\L_DINER\L_DINER\obj\Debug\net5.0\L_DINER.genruntimeconfig.cache
 C:\Users\Dave\Desktop\Sheridan\CompSci-Sem 5\PROG30000 - ESS\L_DINER\L_DINER\L_DINER\obj\Debug\net5.0\Razor\Views\Home\Receipt.cshtml.g.cs
+C:\Users\Dave\Desktop\Sheridan\CompSci-Sem 5\PROG30000 - ESS\L_DINER\L_DINER\L_DINER\obj\Debug\net5.0\Razor\Views\Home\UserProfile.cshtml.g.cs
