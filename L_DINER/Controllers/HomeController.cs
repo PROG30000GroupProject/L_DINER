@@ -65,6 +65,7 @@ namespace L_DINER.Controllers
         }
         public IActionResult Index()
         {
+
             MenuObject menu = new MenuObject{
                 Burgers = burgerRepo.Burgers.Where(b=>b.ID<=defaultBurgerNumber).ToList(),
                 Sides = sideRepo.Sides.ToList(),
@@ -94,8 +95,7 @@ namespace L_DINER.Controllers
                 HttpContext.Session.SetString("order", JsonConvert.SerializeObject(tempOrder));
                 System.Diagnostics.Debug.WriteLine("Added:" + tempOrder.Drinks.Count());
             }
-            
-
+     
             return RedirectToAction("Index");
         }
         public IActionResult AddSide(int ID)
@@ -154,9 +154,21 @@ namespace L_DINER.Controllers
         }
         [HttpGet]
         public IActionResult CustomBurger() {
-            
-            return View(defaultIngredients);
+
+            if (HttpContext.Session.GetString("isLoggedIn") == null)
+            {
+                HttpContext.Session.SetString("isLoggedIn", "false");
+            }
+            if (HttpContext.Session.GetString("isLoggedIn") == "false")
+            {
+                return RedirectToAction("SignIn");
+            }
+            else
+            {
+                return View(defaultIngredients);
+            }
         }
+
         [HttpPost]
         public IActionResult AddCustomBurgerToOrder(int []ingredient)
         {
@@ -215,12 +227,28 @@ namespace L_DINER.Controllers
                 return View("Index",menu);
             }
             else {
-                return View(JsonConvert.DeserializeObject<Order>(HttpContext.Session.GetString("order")));
+                if (HttpContext.Session.GetString("isLoggedIn") == null)
+                {
+                    HttpContext.Session.SetString("isLoggedIn", "false");
+                }
+
+                if (HttpContext.Session.GetString("isLoggedIn").Equals("true"))
+                {
+                    return View(JsonConvert.DeserializeObject<Order>(HttpContext.Session.GetString("order")));
+                }
+                else
+                {
+                    return RedirectToAction("SignIn");
+                }
+                
             }
             
         }
         public IActionResult MakeOrder() {
-            orderRepo.submitOrder(JsonConvert.DeserializeObject<Order>(HttpContext.Session.GetString("order")));
+
+            Order order = JsonConvert.DeserializeObject<Order>(HttpContext.Session.GetString("order"));
+            order.UserID = (int)Int64.Parse(HttpContext.Session.GetString("isLoggedInUser"));
+            orderRepo.submitOrder(order);
             return RedirectToAction("Index");
         }
         public IActionResult ClearOrder()
@@ -245,9 +273,11 @@ namespace L_DINER.Controllers
                     if (u.Email.Equals(email))
                     {
                         UserID = u.ID;
+                        HttpContext.Session.SetString("isLoggedInUser", u.ID.ToString());
                     }
                 }
-                return View(new User());
+                HttpContext.Session.SetString("isLoggedIn", "true");
+                return RedirectToAction("Index");
             }
             ViewBag.Error = "Invalid username or password";
             return View(new User());
@@ -263,6 +293,13 @@ namespace L_DINER.Controllers
                 }
             }
             return false;
+        }
+
+        public IActionResult SignOut()
+        {
+            HttpContext.Session.SetString("isLoggedIn", "false");
+            HttpContext.Session.SetString("isLoggedInUser", "0");
+            return View("Index");
         }
 
         public IActionResult SignUp()
