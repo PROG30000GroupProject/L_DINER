@@ -10,6 +10,10 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 
 namespace L_DINER.Controllers
 {
@@ -331,6 +335,7 @@ namespace L_DINER.Controllers
                 {
                     ViewBag.Msg = "Thank you for signing up";
                     userRepo.SaveUser(user);
+                    SendEmailToUser(user.Email);
                     ModelState.Clear();
                     return View();
                 }
@@ -370,6 +375,32 @@ namespace L_DINER.Controllers
                 return RedirectToAction("SignIn");
             }
             
+        }
+        private void SendEmailToUser(string toUser)
+        {
+            string from = "sheridangoats2024@gmail.com"; //From address
+            MailMessage message = new MailMessage(from, toUser);
+
+            string mailbody = "Dear User, You are successfully joined us, have a good day!!";
+            message.Subject = "Registrition Successfull";
+            message.Body = mailbody;
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp
+            System.Net.NetworkCredential basicCredential1 = new
+            System.Net.NetworkCredential("sheridangoats2024@gmail.com", "goats2024-");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential1;
+            try
+            {
+                client.Send(message);
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
