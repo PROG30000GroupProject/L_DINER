@@ -50,7 +50,7 @@ namespace L_DINER.Models
                 context.Drinks.AddRange(
                     new Drink
                     {
-                        Name = "Cock",
+                        Name = "Coke",
                         Price = 2
                     },
                     new Drink
